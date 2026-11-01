@@ -5,6 +5,9 @@ namespace personapi_dotnet.Models.Entities
 {
     public partial class Estudio
     {
+        public Estudio()
+        {
+        }
         public int IdProf { get; set; }
         public long CcPer { get; set; }
         public DateTime? Fecha { get; set; }
