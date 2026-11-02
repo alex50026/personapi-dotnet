@@ -1,24 +1,41 @@
+-- =============================================================
+-- personapi-dotnet - Script DDL
+-- SQL Server 2022. Idempotente: se puede ejecutar varias veces
+-- (en SSMS o desde el contenedor db-init) sin errores.
+-- =============================================================
 IF DB_ID('persona_db') IS NULL
     CREATE DATABASE persona_db;
+GO
+
+-- El enunciado pide que la base de datos sea propiedad del usuario sa.
+ALTER AUTHORIZATION ON DATABASE::persona_db TO sa;
 GO
 
 USE persona_db;
 GO
 
+IF OBJECT_ID(N'dbo.persona', N'U') IS NULL
 CREATE TABLE persona (
-    cc       BIGINT      NOT NULL PRIMARY KEY,
+    cc       BIGINT      NOT NULL,
     nombre   VARCHAR(45) NOT NULL,
     apellido VARCHAR(45) NOT NULL,
-    genero   CHAR(1)     NOT NULL CHECK (genero IN ('M','F')),
-    edad     INT         NULL
+    genero   CHAR(1)     NOT NULL,
+    edad     INT         NULL,
+    CONSTRAINT PK_persona        PRIMARY KEY (cc),
+    CONSTRAINT CK_persona_genero CHECK (genero IN ('M','F'))
 );
+GO
 
+IF OBJECT_ID(N'dbo.profesion', N'U') IS NULL
 CREATE TABLE profesion (
-    id   INT          NOT NULL PRIMARY KEY,
+    id   INT          NOT NULL,
     nom  VARCHAR(90)  NOT NULL,
-    des  VARCHAR(MAX) NULL
+    des  VARCHAR(MAX) NULL,
+    CONSTRAINT PK_profesion PRIMARY KEY (id)
 );
+GO
 
+IF OBJECT_ID(N'dbo.estudios', N'U') IS NULL
 CREATE TABLE estudios (
     id_prof INT         NOT NULL,
     cc_per  BIGINT      NOT NULL,
@@ -28,11 +45,14 @@ CREATE TABLE estudios (
     CONSTRAINT FK_estudios_profesion FOREIGN KEY (id_prof) REFERENCES profesion(id),
     CONSTRAINT FK_estudios_persona   FOREIGN KEY (cc_per)  REFERENCES persona(cc)
 );
+GO
 
+IF OBJECT_ID(N'dbo.telefono', N'U') IS NULL
 CREATE TABLE telefono (
-    num    VARCHAR(15) NOT NULL PRIMARY KEY,
+    num    VARCHAR(15) NOT NULL,
     oper   VARCHAR(45) NOT NULL,
     duenio BIGINT      NOT NULL,
+    CONSTRAINT PK_telefono         PRIMARY KEY (num),
     CONSTRAINT FK_telefono_persona FOREIGN KEY (duenio) REFERENCES persona(cc)
 );
 GO
