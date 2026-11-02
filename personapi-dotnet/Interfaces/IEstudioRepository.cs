@@ -6,6 +6,7 @@ namespace personapi_dotnet.Interfaces
     {
         Task<IEnumerable<Estudio>> GetAllAsync();
         Task<Estudio?> GetByPersonProfessionAsync(long id, int professionId);
+        Task<bool> ExistsAsync(long id, int professionId);
         Task AddAsync(Estudio estudio);
         Task UpdateAsync(Estudio estudio);
         Task DeleteAsync(long id, int idprof);
