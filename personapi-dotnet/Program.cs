@@ -18,7 +18,7 @@ builder.Services.AddDbContext<persona_dbContext>(options =>
 
 builder.Services.AddScoped<IProfesionRepository, ProfesionRepository>();
 // builder.Services.AddScoped<ITelefonoRepository, TelefonoRepository>();
-// builder.Services.AddScoped<IPersonaRepository, PersonaRepository>();
+builder.Services.AddScoped<IPersonaRepository, PersonaRepository>();
 builder.Services.AddScoped<IEstudioRepository, EstudioRepository>();
 
 var app = builder.Build();
@@ -28,11 +28,10 @@ if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
 }
-else
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+
+app.UseSwagger();
+app.UseSwaggerUI();
+
 
 app.UseStaticFiles();
 

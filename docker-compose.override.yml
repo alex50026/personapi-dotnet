@@ -1,0 +1,6 @@
+# Ajustes solo para desarrollo. Docker Compose (y Visual Studio) lo
+# combinan automáticamente con docker-compose.yml.
+services:
+  personapi-dotnet:
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
