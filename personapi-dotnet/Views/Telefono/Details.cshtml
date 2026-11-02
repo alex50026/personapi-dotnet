@@ -1,0 +1,25 @@
+﻿@model personapi_dotnet.Models.Entities.Telefono
+
+@{
+    ViewData["Title"] = "Detalle del teléfono";
+}
+
+<h1>Detalle del teléfono</h1>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Num)</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.Num)</dd>
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Oper)</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.Oper)</dd>
+        <dt class="col-sm-3">Cédula del dueño</dt>
+        <dd class="col-sm-9">@Model.Duenio</dd>
+        <dt class="col-sm-3">Nombre del dueño</dt>
+        <dd class="col-sm-9">@Model.DuenioNavigation?.Nombre @Model.DuenioNavigation?.Apellido</dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Num">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
