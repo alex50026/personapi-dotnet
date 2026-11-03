@@ -1,55 +1,71 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using personapi_dotnet.Interfaces;
-using personapi_dotnet.Models.Entities;
+using personapi_dotnet.Models.ViewModels;
 
-namespace personapi_dotnet.controllers
+namespace personapi_dotnet.Controllers
 {
     [ApiController]
     [Route("api/estudio")]
     public class EstudioApiController : ControllerBase
     {
         private readonly IEstudioRepository _repo;
+        private readonly IPersonaRepository _personas;
+        private readonly IProfesionRepository _profesiones;
 
-        public EstudioApiController(IEstudioRepository repo)
+        public EstudioApiController(IEstudioRepository repo, IPersonaRepository personas, IProfesionRepository profesiones)
         {
             _repo = repo;
+            _personas = personas;
+            _profesiones = profesiones;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Estudio>>> GetAll()
+        public async Task<ActionResult<IEnumerable<EstudioViewModel>>> GetAll()
         {
-            return Ok(await _repo.GetAllAsync());
+            var estudios = await _repo.GetAllAsync();
+            return Ok(estudios.Select(EstudioViewModel.FromEntity));
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Estudio>> GetByPersonProfessionAsync(int id, int idprof)
+        [HttpGet("{ccPer:long}/{idProf:int}")]
+        public async Task<ActionResult<EstudioViewModel>> GetById(long ccPer, int idProf)
         {
-            var estudio = await _repo.GetByPersonProfessionAsync(id, idprof);
+            var estudio = await _repo.GetByPersonProfessionAsync(ccPer, idProf);
             if (estudio == null) return NotFound();
-            return Ok(estudio);
+            return Ok(EstudioViewModel.FromEntity(estudio));
         }
 
         [HttpPost]
-        public async Task<ActionResult<Estudio>> Create(Estudio estudio)
+        public async Task<ActionResult<EstudioViewModel>> Create(EstudioViewModel vm)
         {
-            await _repo.AddAsync(estudio);
-            return CreatedAtAction(nameof(GetByPersonProfessionAsync), new { id = estudio.CcPer, idprof = estudio.IdProf }, estudio);
+            if (await _repo.ExistsAsync(vm.CcPer, vm.IdProf))
+                return Conflict($"Ya existe un estudio para la persona {vm.CcPer} y la profesión {vm.IdProf}.");
+
+            if (!await _personas.ExistsAsync(vm.CcPer))
+                ModelState.AddModelError(nameof(EstudioViewModel.CcPer), "No existe una persona con esa cédula.");
+            if (await _profesiones.GetByIdAsync(vm.IdProf) == null)
+                ModelState.AddModelError(nameof(EstudioViewModel.IdProf), "No existe una profesión con ese id.");
+            if (!ModelState.IsValid) return ValidationProblem(ModelState);
+
+            await _repo.AddAsync(vm.ToEntity());
+            return CreatedAtAction(nameof(GetById), new { ccPer = vm.CcPer, idProf = vm.IdProf }, vm);
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, int idprof , Estudio estudio)
+        [HttpPut("{ccPer:long}/{idProf:int}")]
+        public async Task<IActionResult> Update(long ccPer, int idProf, EstudioViewModel vm)
         {
-            if (id != estudio.CcPer || idprof != estudio.IdProf) return BadRequest();
-            await _repo.UpdateAsync(estudio );
+            if (ccPer != vm.CcPer || idProf != vm.IdProf)
+                return BadRequest("La llave de la ruta no coincide con la del cuerpo.");
+            if (!await _repo.ExistsAsync(ccPer, idProf)) return NotFound();
+            await _repo.UpdateAsync(vm.ToEntity());
             return NoContent();
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id, int idprof)
+        [HttpDelete("{ccPer:long}/{idProf:int}")]
+        public async Task<IActionResult> Delete(long ccPer, int idProf)
         {
-            await _repo.DeleteAsync(id, idprof);
+            if (!await _repo.ExistsAsync(ccPer, idProf)) return NotFound();
+            await _repo.DeleteAsync(ccPer, idProf);
             return NoContent();
         }
     }
 }
-

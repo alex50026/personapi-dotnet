@@ -1,4 +1,4 @@
-﻿@model personapi_dotnet.Models.Entities.Estudio
+﻿@model personapi_dotnet.Models.ViewModels.EstudioViewModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -10,22 +10,23 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Edit" asp-route-id="@Model.CcPer" asp-route-idprof="@Model.IdProf">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            @* La llave compuesta no se edita: se muestra y viaja oculta. *@
             <input type="hidden" asp-for="CcPer" />
+            <input type="hidden" asp-for="IdProf" />
             <div class="form-group">
                 <label asp-for="CcPer" class="control-label"></label>
-                <input asp-for="CcPer" class="form-control" />
-                <span asp-validation-for="CcPer" class="text-danger"></span>
+                <input class="form-control" value="@Model.CcPer" disabled />
             </div>
             <div class="form-group">
                 <label asp-for="IdProf" class="control-label"></label>
-                <input asp-for="IdProf" class="form-control" />
-                <span asp-validation-for="IdProf" class="text-danger"></span>
+                <input class="form-control" value="@Model.IdProf" disabled />
             </div>
             <div class="form-group">
                 <label asp-for="Fecha" class="control-label"></label>
-                <input asp-for="Fecha" class="form-control" />
+                <input asp-for="Fecha" type="date" class="form-control" />
                 <span asp-validation-for="Fecha" class="text-danger"></span>
             </div>
             <div class="form-group">

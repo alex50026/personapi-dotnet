@@ -25,6 +25,11 @@ namespace personapi_dotnet.Repositories
                 .FirstOrDefaultAsync(e => e.CcPer == id && e.IdProf == professionId);
         }
 
+        public async Task<bool> ExistsAsync(long id, int professionId)
+        {
+            return await _context.Estudios.AnyAsync(e => e.CcPer == id && e.IdProf == professionId);
+        }
+
         public async Task AddAsync(Estudio estudio)
         {
             _context.Estudios.Add(estudio);

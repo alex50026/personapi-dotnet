@@ -1,4 +1,4 @@
-﻿@model personapi_dotnet.Models.Entities.Estudio
+﻿@model personapi_dotnet.Models.ViewModels.EstudioViewModel
 
 @{
     ViewData["Title"] = "Delete";
@@ -8,7 +8,7 @@
 
 <h3>Are you sure you want to delete this?</h3>
 <div>
-    <h4>personapi_dotnet.Models.Entities.Estudio</h4>
+    <h4>Estudio</h4>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
@@ -42,9 +42,7 @@
             @Html.DisplayFor(model => model.Univer)
         </dd>
     </dl>
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="CcPer" />
-        <input type="hidden" asp-for="IdProf" />
+    <form asp-action="Delete" asp-route-id="@Model.CcPer" asp-route-idprof="@Model.IdProf">
         <input type="submit" value="Delete" class="btn btn-danger" /> |
         <a asp-action="Index">Back to List</a>
     </form>
