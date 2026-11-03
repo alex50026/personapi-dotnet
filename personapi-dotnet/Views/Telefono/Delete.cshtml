@@ -1,0 +1,51 @@
+﻿@model personapi_dotnet.Models.ViewModels.TelefonoViewModel
+
+@{
+    ViewData["Title"] = "Eliminar teléfono";
+}
+
+<h1>Eliminar teléfono</h1>
+
+<h3>¿Seguro que quieres eliminar este teléfono?</h3>
+<div>
+    <h4>Telefono</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Num)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Num)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Oper)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Oper)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Duenio)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Duenio)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.DuenioNombre)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DuenioNombre)
+        </dd>
+    </dl>
+
+    @* Muestra el error del controlador si falla el borrado. *@
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <form asp-action="Delete">
+        <input type="hidden" name="id" value="@Model.Num" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>
