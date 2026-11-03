@@ -1,4 +1,4 @@
-@model personapi_dotnet.Models.Entities.Profesion
+@model personapi_dotnet.Models.ViewModels.ProfesionViewModel
 
 @{
     ViewData["Title"] = "Details";
@@ -10,25 +10,25 @@
     <h4>Profesion</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Id)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Id)
+        </dd>
+
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Nom)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Nom)
         </dd>
-    </dl>
-        <dt class = "col-sm-2">
+
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Des)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Des)
-        </dd>
-    </dl>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Estudios)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Estudios)
         </dd>
     </dl>
 </div>

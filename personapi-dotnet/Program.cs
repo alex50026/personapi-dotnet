@@ -7,7 +7,8 @@ using System.Text.Json.Serialization;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews()
+builder.Services.AddControllersWithViews(options =>
+        options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true)
     .AddJsonOptions(o => o.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -17,9 +18,9 @@ builder.Services.AddDbContext<persona_dbContext>(options =>
 
 
 builder.Services.AddScoped<IProfesionRepository, ProfesionRepository>();
-// builder.Services.AddScoped<ITelefonoRepository, TelefonoRepository>();
 builder.Services.AddScoped<IPersonaRepository, PersonaRepository>();
 builder.Services.AddScoped<IEstudioRepository, EstudioRepository>();
+builder.Services.AddScoped<ITelefonoRepository, TelefonoRepository>();
 
 var app = builder.Build();
 

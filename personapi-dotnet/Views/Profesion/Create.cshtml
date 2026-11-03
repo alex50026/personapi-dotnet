@@ -1,7 +1,7 @@
-@model personapi_dotnet.Models.Entities.Profesion
+@model personapi_dotnet.Models.ViewModels.ProfesionViewModel
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Nueva profesión";
 }
 
 <h1>Create</h1>
@@ -13,6 +13,7 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
+            @* El Id es la llave primaria y no se autogenera: lo escribe el usuario. *@
             <div class="form-group">
                 <label asp-for="Id" class="control-label"></label>
                 <input asp-for="Id" class="form-control" />
@@ -27,7 +28,7 @@
 
             <div class="form-group">
                 <label asp-for="Des" class="control-label"></label>
-                <input asp-for="Des" class="form-control" />
+                <textarea asp-for="Des" class="form-control" rows="3"></textarea>
                 <span asp-validation-for="Des" class="text-danger"></span>
             </div>
 
