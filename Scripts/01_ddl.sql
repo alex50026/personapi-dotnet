@@ -1,13 +1,8 @@
--- =============================================================
--- personapi-dotnet - Script DDL
--- SQL Server 2022. Idempotente: se puede ejecutar varias veces
--- (en SSMS o desde el contenedor db-init) sin errores.
--- =============================================================
 IF DB_ID('persona_db') IS NULL
     CREATE DATABASE persona_db;
 GO
 
--- El enunciado pide que la base de datos sea propiedad del usuario sa.
+
 ALTER AUTHORIZATION ON DATABASE::persona_db TO sa;
 GO
 
