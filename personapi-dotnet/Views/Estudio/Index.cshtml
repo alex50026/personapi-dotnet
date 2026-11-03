@@ -1,0 +1,54 @@
+﻿@model IEnumerable<personapi_dotnet.Models.Entities.Estudio>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.IdProf)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CcPer)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Fecha)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Univer)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdProf)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.CcPer)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.Fecha)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.Univer)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.CcPer" asp-route-idprof="@item.IdProf">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.CcPer" asp-route-idprof="@item.IdProf">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.CcPer" asp-route-idprof="@item.IdProf">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
