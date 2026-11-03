@@ -1,17 +1,18 @@
-﻿@model personapi_dotnet.Models.Entities.Telefono
-
+﻿@model personapi_dotnet.Models.ViewModels.TelefonoViewModel
 @{
     ViewData["Title"] = "Crear teléfono";
 }
 
-<h1>Crear teléfono</h1>
+<h1>Create</h1>
 
+<h4>Telefono</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
+            @* El número es la llave primaria y no se autogenera: lo escribe el usuario. *@
             <div class="form-group">
                 <label asp-for="Num" class="control-label"></label>
                 <input asp-for="Num" class="form-control" />
@@ -26,7 +27,9 @@
 
             <div class="form-group">
                 <label asp-for="Duenio" class="control-label"></label>
-                <input asp-for="Duenio" class="form-control" />
+                <select asp-for="Duenio" asp-items="Model.Personas" class="form-control">
+                    <option value="">-- Seleccione --</option>
+                </select>
                 <span asp-validation-for="Duenio" class="text-danger"></span>
             </div>
 

@@ -13,17 +13,11 @@ namespace personapi_dotnet.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<Profesion>> GetAllAsync()
-        {
-            return await _context.Profesions.AsNoTracking().ToListAsync();
-        }
+        public async Task<List<Profesion>> GetAllAsync() =>
+            await _context.Profesions.AsNoTracking().OrderBy(p => p.Id).ToListAsync();
 
-        public async Task<Profesion?> GetByIdAsync(int id)
-        {
-            return await _context.Profesions
-                .AsNoTracking()
-                .FirstOrDefaultAsync(p => p.Id == id);
-        }
+        public async Task<Profesion?> GetByIdAsync(int id) =>
+            await _context.Profesions.AsNoTracking().FirstOrDefaultAsync(p => p.Id == id);
 
         public async Task AddAsync(Profesion profesion)
         {
@@ -39,12 +33,16 @@ namespace personapi_dotnet.Repositories
 
         public async Task DeleteAsync(int id)
         {
-            var profesion = await _context.Profesions.FindAsync(id);
-            if (profesion != null)
-            {
-                _context.Profesions.Remove(profesion);
-                await _context.SaveChangesAsync();
-            }
+            var entity = await _context.Profesions.FindAsync(id);
+            if (entity is null) return;
+            _context.Profesions.Remove(entity);
+            await _context.SaveChangesAsync();
         }
+
+        public async Task<bool> ExistsAsync(int id) =>
+            await _context.Profesions.AnyAsync(p => p.Id == id);
+
+        public async Task<bool> HasEstudiosAsync(int id) =>
+            await _context.Estudios.AnyAsync(e => e.IdProf == id);
     }
 }

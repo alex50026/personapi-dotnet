@@ -4,11 +4,13 @@ namespace personapi_dotnet.Interfaces
 {
     public interface IProfesionRepository
     {
-        Task<IEnumerable<Profesion>> GetAllAsync();
+        Task<List<Profesion>> GetAllAsync();
         Task<Profesion?> GetByIdAsync(int id);
         Task AddAsync(Profesion profesion);
         Task UpdateAsync(Profesion profesion);
         Task DeleteAsync(int id);
+        Task<bool> ExistsAsync(int id);
+        Task<bool> HasEstudiosAsync(int id);
 
     }
 }

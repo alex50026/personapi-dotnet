@@ -1,4 +1,4 @@
-@model personapi_dotnet.Models.Entities.Profesion
+@model personapi_dotnet.Models.ViewModels.ProfesionViewModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -12,22 +12,26 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            @* La llave primaria no se edita: se muestra y viaja oculta. *@
             <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="Id" class="control-label"></label>
+                <input class="form-control" value="@Model.Id" disabled />
+            </div>
+
             <div class="form-group">
                 <label asp-for="Nom" class="control-label"></label>
                 <input asp-for="Nom" class="form-control" />
                 <span asp-validation-for="Nom" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="Des" class="control-label"></label>
-                <input asp-for="Des" class="form-control" />
+                <textarea asp-for="Des" class="form-control" rows="3"></textarea>
                 <span asp-validation-for="Des" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Estudios" class="control-label"></label>
-                <input asp-for="Estudios" class="form-control" />
-                <span asp-validation-for="Estudios" class="text-danger"></span>
-            </div>
+
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
@@ -40,5 +44,8 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
+
